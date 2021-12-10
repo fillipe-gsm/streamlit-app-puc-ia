@@ -23,4 +23,4 @@ def preprocess_data() -> pd.DataFrame:
 
 
 def _override_nas(df: pd.DataFrame, column: str) -> pd.DataFrame:
-    df[column][df[column].isna()] = settings.default_str_nan
+    df.loc[df[column].isna(), column] = settings.default_str_nan

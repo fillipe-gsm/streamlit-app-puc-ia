@@ -257,7 +257,6 @@ def bar_plot(
     df_group: pd.DataFrame, title: str, callback: Optional[Callable] = None
 ):
     """Creat a bar plot grouping data by specific column"""
-    # df_group = df.groupby(by=by).size().sort_values()
     fig, ax = plt.subplots()
     ax.bar(df_group.keys(), df_group.values)
     ax.set_title(title)

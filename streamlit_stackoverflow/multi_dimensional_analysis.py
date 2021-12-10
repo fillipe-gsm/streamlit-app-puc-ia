@@ -312,8 +312,8 @@ def _python_salary_global(df: pd.DataFrame) -> None:
     )
 
     mask = df[settings.USED_LANGUAGES].str.contains("Python")
-    df[settings.USE_PYTHON] = False
-    df[settings.USE_PYTHON][mask] = True
+    df.loc[:, settings.USE_PYTHON] = False
+    df.loc[mask, settings.USE_PYTHON] = True
 
     ax = df.boxplot(
         column=settings.YEARLY_SALARY,
@@ -342,8 +342,8 @@ def _python_salary_brazil(df: pd.DataFrame) -> None:
 
     df_brazil = df[df[settings.COUNTRY] == settings.BRAZIL]
     mask = df_brazil[settings.USED_LANGUAGES].str.contains("Python")
-    df_brazil[settings.USE_PYTHON] = False
-    df_brazil[settings.USE_PYTHON][mask] = True
+    df_brazil.loc[:, settings.USE_PYTHON] = False
+    df_brazil.loc[mask, settings.USE_PYTHON] = True
 
     ax = df_brazil.boxplot(
         column=settings.YEARLY_SALARY,
@@ -373,8 +373,8 @@ def _python_salary_most_common_countries(df: pd.DataFrame) -> None:
     mask = df_most_common_countries[
         settings.USED_LANGUAGES
     ].str.contains("Python")
-    df_most_common_countries[settings.USE_PYTHON] = False
-    df_most_common_countries[settings.USE_PYTHON][mask] = True
+    df_most_common_countries.loc[:, settings.USE_PYTHON] = False
+    df_most_common_countries.loc[mask, settings.USE_PYTHON] = True
 
     ax = df_most_common_countries.boxplot(
         column=settings.YEARLY_SALARY,

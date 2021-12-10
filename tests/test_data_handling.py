@@ -49,5 +49,3 @@ def test_preprocess_data():
     # Assert no OP_SYS has NaN
     mask = df[settings.OP_SYS].isna()
     assert mask.sum() == 0
-
-    import ipdb; ipdb.set_trace()
