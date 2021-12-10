@@ -42,4 +42,12 @@ def test_preprocess_data():
     mask = df[settings.MENTAL_HEALTH].isna()
     assert mask.sum() == 0
 
+    # Assert no ORG_SIZE has NaN
+    mask = df[settings.ORG_SIZE].isna()
+    assert mask.sum() == 0
+
+    # Assert no OP_SYS has NaN
+    mask = df[settings.OP_SYS].isna()
+    assert mask.sum() == 0
+
     import ipdb; ipdb.set_trace()

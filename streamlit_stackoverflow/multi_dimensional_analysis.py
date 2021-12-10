@@ -4,6 +4,13 @@ import pandas as pd
 import streamlit as st
 from config import settings
 
+from streamlit_stackoverflow.single_dimensional_analysis import (
+    bar_plot, pie_plot
+)
+
+
+NUM_COUNTRIES = 5
+
 
 def multi_dimensional_section(df: pd.DataFrame) -> None:
     """Plots and analyses with multiple variable"""
@@ -14,22 +21,25 @@ def multi_dimensional_section(df: pd.DataFrame) -> None:
         """
     )
 
-    _year_salary(df)
+    _salary_analyses(df)
+    _professional_analyses(df)
+    _python_analyses(df)
 
 
-def _year_salary(df_raw: pd.DataFrame) -> None:
+def _salary_analyses(df_raw: pd.DataFrame) -> None:
     """Year salary analysis"""
 
     st.subheader("Salário anual convertido")
 
     # Remove NaN salaries as they are useless to us
     df = df_raw[~df_raw[settings.YEARLY_SALARY].isna()]
-    _year_age_salary(df)
-    _year_edlevel_salary(df)
-    _year_mentalhealth_salary(df)
+    _salary_age(df)
+    _salary_edlevel(df)
+    _salary_country(df)
+    _salary_mentalhealth(df)
 
 
-def _year_age_salary(df: pd.DataFrame) -> None:
+def _salary_age(df: pd.DataFrame) -> None:
     """Combine year with age"""
     st.markdown("#### Salário por idade")
     st.markdown(
@@ -70,7 +80,7 @@ def _year_age_salary(df: pd.DataFrame) -> None:
     st.pyplot(ax2.get_figure())
 
 
-def _year_edlevel_salary(df: pd.DataFrame) -> None:
+def _salary_edlevel(df: pd.DataFrame) -> None:
     """Combine year with education level"""
     st.markdown("#### Salário por escolaridade")
     st.markdown(
@@ -106,7 +116,48 @@ def _year_edlevel_salary(df: pd.DataFrame) -> None:
     st.pyplot(ax2.get_figure())
 
 
-def _year_mentalhealth_salary(df: pd.DataFrame) -> None:
+def _salary_country(df: pd.DataFrame) -> None:
+    """Combine year salary with country"""
+    st.markdown("#### Salário por país")
+    st.markdown(
+        f"""
+        Conforme visto na primeira seção, há muitos países disponíveis, e assim
+        visualizar as faixas salarias em cada um traria mais ruído que
+        informação. Sendo assim, vamos focar nos {NUM_COUNTRIES} países que
+        mais responderam às pesquisas.
+
+        Seguindo o padrão nas outras sub-seções, os numerosos outliers
+        dificultam a análise, e por isso podemos concentrar a atenção no painel
+        seguinte. A tendência central parece indicar que os Estados Unidos
+        apresentam níveis de salários mais elevados, apesar de que com a alta
+        variabilidade apenas com um teste de hipóteses poderíamos confirmar
+        isso. Por outro lado, apenas esta análise visual indica que os salários
+        na Índia são significativamente mais baixos que nos outros países.
+        """
+    )
+
+    # Group data by country
+    df_most_common_countries = _get_data_most_common_countries(df)
+
+    # Plot boxplots
+    ax = df_most_common_countries.boxplot(
+        column=settings.YEARLY_SALARY, by=settings.COUNTRY, rot=90
+    )
+    ax.set_title(f"Salário nos {NUM_COUNTRIES} países mais respondidos")
+    st.pyplot(ax.get_figure())
+
+    ax2 = df_most_common_countries.boxplot(
+        column=settings.YEARLY_SALARY,
+        by=settings.COUNTRY,
+        rot=90,
+        showfliers=False,
+    )
+    ax2.set_title(f"Salário nos {NUM_COUNTRIES} países sem outliers")
+    st.pyplot(ax2.get_figure())
+
+
+
+def _salary_mentalhealth(df: pd.DataFrame) -> None:
     """Combine year with mental health"""
     st.markdown("#### Salário por saúde mental")
 
@@ -150,3 +201,225 @@ def _year_mentalhealth_salary(df: pd.DataFrame) -> None:
     for item in ax2.get_xticklabels():
         item.set_fontsize(5)
     st.pyplot(ax2.get_figure())
+
+
+def _professional_analyses(df_raw: pd.DataFrame) -> None:
+    """Analyses of professional people"""
+
+    st.subheader("Análise de pessoas com trabalho profissional")
+
+    st.markdown(
+        """
+        Como visto na primeira seção, mais de 60% dos participantes está
+        empregado em um _full time_ job. Vamos nos aprofundar um pouco nesta
+        categoria.
+        """
+    )
+
+    df = df_raw[df_raw[settings.EMPLOYMENT] == settings.EMPLOYED_FULL_TIME]
+
+    _professional_and_edlevel(df)
+    _professional_and_companysize(df)
+
+
+def _professional_and_edlevel(df: pd.DataFrame) -> None:
+    """Relationship of education level with professional people"""
+
+    st.markdown("#### Níveis de escolaridade")
+    st.markdown(
+        """
+        Dentre as pessoas com full-time job, vemos que quase a metade possui
+        graduação, e este número é seguido de mestres. O perfil se mantém o
+        mesmo quando consideramos todas as pessoas, como mostrado na primeira
+        seção.
+        """
+    )
+
+    df_group = df.groupby(by=settings.ED_LEVEL).size().sort_values()
+
+    bar_plot(
+        df_group,
+        title="Participantes com full-time job por Escolaridade",
+    )
+    pie_plot(
+        df_group,
+        title=(
+            "Porcentagem de participantes com full-time job por Escolaridade"
+        ),
+    )
+
+
+def _professional_and_companysize(df: pd.DataFrame) -> None:
+    """Relationship of company size with professional people"""
+
+    st.markdown("#### Tamanho da empresa")
+    st.markdown(
+        """
+        Vemos nos gráficos a seguir que a maior parte dos participantes com
+        trabalho _full-time_ estão ou em empresas com 20 a 500 funcionários, e
+        em terceiro lugar há um salto para companhias enormes, com mais de dez
+        mil pessoas. A minoria trabalha sozinho ou não sabe o tamanho de suas
+        companhias.
+        """
+    )
+
+    df_group = df.groupby(by=settings.ORG_SIZE).size().sort_values()
+
+    bar_plot(
+        df_group,
+        title="Tamanho da empresa de participantes com full-time job",
+    )
+    pie_plot(
+        df_group,
+        title=(
+            "Porcentagem do tamanho da empresa por participante com full-time"
+            "job"
+        ),
+    )
+
+
+def _python_analyses(df_raw: pd.DataFrame) -> None:
+    """Analyses including people that work with Python"""
+    st.subheader("Análise de programadores em Python")
+
+    st.markdown(
+        """
+        Nesta última seção vamos investigar um pouco mais no grupo de
+        participantes que programam em Python.
+        """
+    )
+
+    _python_opsys(df_raw)
+    _python_salary_global(df_raw)
+    _python_salary_brazil(df_raw)
+    _python_salary_most_common_countries(df_raw)
+
+
+def _python_salary_global(df: pd.DataFrame) -> None:
+    """Salary of Python developers"""
+    st.markdown("#### Faixa de salário dentre programadores de Python")
+    st.markdown(
+        """
+        Considerando todos participantes, o boxplot a seguir compara as faixas
+        salariais entre programadores que trabalham ou não com Python. Por
+        comodidade, já removemos os outliers uma vez que eles obstruem este
+        tipo de análise.
+
+        Como se vê, não parece haver diferença significativa entre os grupos, o
+        que é um bom indicativo de que independente da linguagem escolhida é
+        possível prosperar nesta área.
+        """
+    )
+
+    mask = df[settings.USED_LANGUAGES].str.contains("Python")
+    df[settings.USE_PYTHON] = False
+    df[settings.USE_PYTHON][mask] = True
+
+    ax = df.boxplot(
+        column=settings.YEARLY_SALARY,
+        by=settings.USE_PYTHON,
+        rot=90,
+        showfliers=False,
+    )
+    ax.set_title(
+        "Comparação de salários entre quem trabalha ou não com Python"
+    )
+    st.pyplot(ax.get_figure())
+
+
+def _python_salary_brazil(df: pd.DataFrame) -> None:
+    """Salary of Python developers in Brazil"""
+    st.markdown(
+        """
+        Focando a análise no Brasil, podemos tomar a mesma conclusão anterior.
+        Porém, há um adendo importante: nossa faixa salarial é extremamente
+        menor. Na seção anterior, vimos que os EUA possuem um salário mediano
+        de cerca de 130 mil dólares por ano, os outros países estão em 80 mil,
+        enquanto a Índia paga os funcionários menos de 30 mil tipicamente.
+        Nossa faixa salarial encontra-se próxima, senão menor, que a da Índia.
+        """
+    )
+
+    df_brazil = df[df[settings.COUNTRY] == settings.BRAZIL]
+    mask = df_brazil[settings.USED_LANGUAGES].str.contains("Python")
+    df_brazil[settings.USE_PYTHON] = False
+    df_brazil[settings.USE_PYTHON][mask] = True
+
+    ax = df_brazil.boxplot(
+        column=settings.YEARLY_SALARY,
+        by=settings.USE_PYTHON,
+        rot=90,
+        showfliers=False,
+    )
+    ax.set_title(
+        "Comparação de salários brasileiros entre quem trabalha ou não com "
+        "Python"
+    )
+    st.pyplot(ax.get_figure())
+
+
+def _python_salary_most_common_countries(df: pd.DataFrame) -> None:
+    """Salary of Python developers in most common countries"""
+    st.markdown(
+        """
+        Vamos repetir a análise anterior para os países que mais responderam.
+        Como se vê, podemos tomar a mesma conclusão. Não parece haver diferença
+        significativa nos salários em nenhum dos seis países considerados
+        (contando o Brasil) com respeito a usar ou não Python.
+        """
+    )
+
+    df_most_common_countries = _get_data_most_common_countries(df)
+    mask = df_most_common_countries[
+        settings.USED_LANGUAGES
+    ].str.contains("Python")
+    df_most_common_countries[settings.USE_PYTHON] = False
+    df_most_common_countries[settings.USE_PYTHON][mask] = True
+
+    ax = df_most_common_countries.boxplot(
+        column=settings.YEARLY_SALARY,
+        by=[settings.COUNTRY, settings.USE_PYTHON],
+        rot=90,
+        showfliers=False,
+    )
+    ax.set_title(
+        "Comparação de salários dos países mais respondidos entre quem "
+        "trabalha ou não com Python"
+    )
+    st.pyplot(ax.get_figure())
+
+
+def _python_opsys(df_raw: pd.DataFrame) -> None:
+    """OS used by Python developers"""
+
+    st.markdown("#### Sistema operacional usado entre programadores de Python")
+    st.markdown(
+        """
+        Vemos abaixo que Windows é o sistema mais popular dentro programadores
+        Python (40,2%), seguido de sistemas baseados em Linux (32,5%). Esta
+        resposta pode ser um tanto quanto surpreendente, uma vez que é comum
+        pensar que programadores tendem a preferir Linux. Sistemas baseados em
+        BSD costumam ser mais usados em servidores, então o baixo número neste
+        caso parece fazer sentido.
+        """
+    )
+    df = df_raw[df_raw[settings.USED_LANGUAGES].str.contains("Python")]
+
+    df_group = df.groupby(by=settings.OP_SYS).size().sort_values()
+    bar_plot(
+        df_group,
+        title="Sistema Operacional de Programadores Python",
+    )
+    pie_plot(
+        df_group,
+        title="Porcentagem de Sistema Operacional de Programadores Python",
+    )
+
+
+def _get_data_most_common_countries(df: pd.DataFrame) -> pd.DataFrame:
+    """Get a dataframe with only the most answered countries"""
+    df_group = df.groupby(by=settings.COUNTRY).size().sort_values()
+    most_common_countries = df_group.keys()[-NUM_COUNTRIES:]
+    return df[
+        df[settings.COUNTRY].isin(most_common_countries)
+    ]

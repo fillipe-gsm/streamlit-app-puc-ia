@@ -14,3 +14,10 @@ USED_LANGUAGES = "LanguageHaveWorkedWith"
 DESIRED_LANGUAGES = "LanguageWantToWorkWith"
 YEARLY_SALARY = "ConvertedCompYearly"
 MENTAL_HEALTH = "MentalHealth"
+ORG_SIZE = "OrgSize"
+OP_SYS = "OpSys"
+USE_PYTHON = "UsePython"  # column created for people who use Python
+
+# Specific values for specific columns
+EMPLOYED_FULL_TIME = "Employed full-time"
+BRAZIL = "Brazil"

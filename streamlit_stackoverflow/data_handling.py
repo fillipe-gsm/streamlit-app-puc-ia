@@ -16,6 +16,8 @@ def preprocess_data() -> pd.DataFrame:
     _override_nas(df, column=settings.USED_LANGUAGES)
     _override_nas(df, column=settings.DESIRED_LANGUAGES)
     _override_nas(df, column=settings.MENTAL_HEALTH)
+    _override_nas(df, column=settings.ORG_SIZE)
+    _override_nas(df, column=settings.OP_SYS)
 
     return df
 

@@ -53,12 +53,12 @@ def _education_levels(df: pd.DataFrame) -> None:
     )
 
     df_group = df.groupby(by=settings.ED_LEVEL).size().sort_values()
-    _bar_plot(
+    bar_plot(
         df_group,
         title="Participantes por Nível de Escolaridade",
     )
 
-    _pie_plot(
+    pie_plot(
         df_group,
         title="Porcentagem de participantes por Nível de Escolaridade",
     )
@@ -84,7 +84,7 @@ def _years_code(df: pd.DataFrame) -> None:
 
     df_group = df.groupby(by=settings.YEARS_CODE).size().sort_values()
 
-    _bar_plot(
+    bar_plot(
         df_group,
         title="Participantes por tempo de programação",
         callback=_reduce_font_size,
@@ -108,7 +108,7 @@ def _years_code(df: pd.DataFrame) -> None:
 
     df_group2 = df.groupby(by=settings.YEARS_CODE_PRO).size().sort_values()
 
-    _bar_plot(
+    bar_plot(
         df_group2,
         title="Participantes por tempo de programação profissional",
         callback=_reduce_font_size,
@@ -135,12 +135,12 @@ def _employment(df: pd.DataFrame) -> None:
 
     df_group = df.groupby(by=settings.EMPLOYMENT).size().sort_values()
 
-    _bar_plot(
+    bar_plot(
         df_group,
         title="Participantes por tipo de empregabilidade",
     )
 
-    _pie_plot(
+    pie_plot(
         df_group,
         title="Porcentagem de participantes por tipo de empregabilidade",
     )
@@ -162,7 +162,7 @@ def _country(df: pd.DataFrame) -> None:
         """
     )
 
-    _bar_plot(
+    bar_plot(
         df_group,
         title="Participantes por País",
         callback=_reduce_font_size,
@@ -185,13 +185,13 @@ def _country(df: pd.DataFrame) -> None:
     # Group by state but removing the NaN
     df_group2 = df.groupby(by=settings.US_STATE).size().sort_values()
     df_group2.pop(settings.default_str_nan)
-    _bar_plot(
+    bar_plot(
         df_group2,
         title="Participantes por estado nos Estados Unidos",
         callback=_reduce_font_size,
     )
 
-    _pie_plot(
+    pie_plot(
         df_group2,
         title="Porcentagem de participantes por estado nos Estados Unidos",
     )
@@ -253,7 +253,7 @@ def _languages(df: pd.DataFrame) -> None:
     st.pyplot(fig2)
 
 
-def _bar_plot(
+def bar_plot(
     df_group: pd.DataFrame, title: str, callback: Optional[Callable] = None
 ):
     """Creat a bar plot grouping data by specific column"""
@@ -268,10 +268,8 @@ def _bar_plot(
 
     st.pyplot(fig)
 
-    return ax
 
-
-def _pie_plot(df_group: pd.DataFrame, title: str):
+def pie_plot(df_group: pd.DataFrame, title: str):
     """Create a pie plot"""
     fig, ax = plt.subplots()
     ax.pie(
