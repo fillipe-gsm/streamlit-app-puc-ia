@@ -63,8 +63,8 @@ def _salary_age(df: pd.DataFrame) -> None:
         """
         Sendo assim, o próximo gráfico remove estes outliers. A tendência
         central parece subir com a experiência, o que é animador. Nas faixas
-        envolvendo 35 anos ou mais, a grande variabilidade dos dados não parece
-        sugerir que haja diferença significativa entre os salários, mas
+        envolvendo 35 anos ou mais, a grande variabilidade dos dados não
+        permite sugerir que haja diferença significativa entre os salários, mas
         conseguimos ver um aumento pronunciado nesta faixa quando comparado com
         cargos de participantes abaixo de 24 anos.
         """
@@ -92,7 +92,7 @@ def _salary_edlevel(df: pd.DataFrame) -> None:
 
         É possível observar que, dada a grande variabilidade em todos os
         grupos, não parece haver diferença significativa em nenhum deles. Ou
-        seja, o salário típico não parece depender dos níveis de escolaridade
+        seja, o salário típico não depende dos níveis de escolaridade
         dos participantes. Talvez a própria existência do StackOverflow seja
         suficiente para explicar isso: grande parte da informação necessária
         para aprender e a tirar dúvidas encontra-se disponível, e assim as
@@ -131,8 +131,9 @@ def _salary_country(df: pd.DataFrame) -> None:
         seguinte. A tendência central parece indicar que os Estados Unidos
         apresentam níveis de salários mais elevados, apesar de que com a alta
         variabilidade apenas com um teste de hipóteses poderíamos confirmar
-        isso. Por outro lado, apenas esta análise visual indica que os salários
-        na Índia são significativamente mais baixos que nos outros países.
+        isso. Por outro lado, a análise visual por si só já indica que os
+        salários na Índia são significativamente mais baixos que nos outros
+        países.
         """
     )
 
@@ -177,8 +178,8 @@ def _salary_mentalhealth(df: pd.DataFrame) -> None:
         Evitarei tirar qualquer conclusão aqui por não compreender muito bem o
         significado destes itens; porém, é ao menos interessante perceber como
         participantes que se enquadram em determinadas categorias possuem uma
-        faixa de salário consiste o suficiente para não apresentar outliers
-        como o restante.
+        faixa de salário consistente o suficiente para não apresentar outliers
+        como nas outras.
         """
     )
 
@@ -395,7 +396,7 @@ def _python_opsys(df_raw: pd.DataFrame) -> None:
     st.markdown("#### Sistema operacional usado entre programadores de Python")
     st.markdown(
         """
-        Vemos abaixo que Windows é o sistema mais popular dentro programadores
+        Vemos abaixo que Windows é o sistema mais popular dentre programadores
         Python (40,2%), seguido de sistemas baseados em Linux (32,5%). Esta
         resposta pode ser um tanto quanto surpreendente, uma vez que é comum
         pensar que programadores tendem a preferir Linux. Sistemas baseados em

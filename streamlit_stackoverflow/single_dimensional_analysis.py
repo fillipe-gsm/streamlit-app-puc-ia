@@ -41,13 +41,14 @@ def _education_levels(df: pd.DataFrame) -> None:
 
     # Plot bar chart
     st.markdown(
-        r"""
-        O painel abaixo mostra a quantidade de participantes para cada nível.
-        acompanhado do percentual no gráfico de pizza a seguir.
-        Como se vê, a maior parte possui graduação completa, correspondendo a
-        cerca de 42,4% do total, seguido de mestrado completo, com 21%.
+        """
+        O painel abaixo mostra a quantidade de participantes para cada nível,
+        seguido do percentual no gráfico de pizza.
+        Como se vê, a maior parte das pessoas possui graduação completa,
+        correspondendo a cerca de 42,4% do total, seguido de um mestrado
+        completo, representando 21%.
 
-        Como se vê, poucas pessoas deixaram este campo em branco ou possuíam
+        Como se vê, poucas pessoas ou deixaram este campo em branco ou possuíam
         um nível diferente dos disponíveis, totalizando 1914 ou 2,3%.
         """
     )
@@ -72,13 +73,13 @@ def _years_code(df: pd.DataFrame) -> None:
     # Years of code
     st.markdown(
         """
-        Como se vê no gráfico abaixo, os grupos de pessoas que mais aparecem
+        O gráfico abaixo indica que os grupos de pessoas que mais aparecem
         têm 5 ou 10 anos de prática. Em contrapartida, participantes com mais
-        de 40 anos de programação são bem mais raros.
+        de 40 anos de programação são mais raros.
 
         Apesar disso, é interessante ver como há pessoas que provavelmente
-        iniciaram esta vida sem as vantagens da internet e de linguagens mais
-        "simples" continuam ativas.
+        iniciaram esta vida sem as vantagens da internet e linguagens mais
+        "simples" continuam ativas no site.
         """
     )
 
@@ -93,16 +94,16 @@ def _years_code(df: pd.DataFrame) -> None:
     # Years of code pro
     st.markdown(
         """
-        Quando contamos tempo de prática profissional (provavelmente em
+        Quando consideramos tempo de prática profissional (provavelmente em
         empresas ou universidades), o quadro permanece similar com exceção de
-        que a esmagadora maior parte dos participantes não forneceu esta
-        informação. É possível que grande parte não esteja trabalhando
+        que a esmagadora maior parte dos participantes não forneceu seus dados.
+        É possível que grande parte não esteja trabalhando
         profissionalmente ainda, ou que talvez a definição de "pro" não estava
-        clara, ou que simplesmente se esqueceram de preencher.
+        clara, ou que simplesmente esqueceram-se de preencher este dado.
 
         Excluindo esta parte, podemos ver, como antes, que a maior parte dos
         participantes possui menos de 10 anos de experiência profissional,
-        enquanto o outro extremo, com mais de 40 anos, consiste na minoria.
+        enquanto minoria está no outro extremo com mais de 40 anos.
         """
     )
 
@@ -178,7 +179,8 @@ def _country(df: pd.DataFrame) -> None:
         Neste caso, a maior parte das pessoas reside na Califórnia e a minoria
         em _American Samoa_. O fato de o _Silicon Valley_ estar localizado
         neste estado pode ter relação com este número maior, mas seria
-        necessário outro estudo para confirmar a relação.
+        necessário outro estudo para confirmar algum tipo de causa ou outro
+        possível fator.
         """
     )
 

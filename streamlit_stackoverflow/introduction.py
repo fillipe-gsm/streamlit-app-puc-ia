@@ -10,19 +10,19 @@ def introduction_section(df: pd.DataFrame) -> None:
 
     st.markdown(
         """
-        Este app apresenta algumas análises de consultas realizadas no
-        Stack Overflow no ano de 2021.
+        Este app apresenta análises de consultas realizadas no Stack Overflow
+        no ano de 2021.
         """
     )
 
     # The whole data is too large, so show a portion of it
     if st.checkbox(
-        "Clique aqui para uma amostra dos dados brutos",
+        "Clique aqui para ver uma amostra dos dados brutos",
         value=False,
     ):
         st.dataframe(df[:settings.data_max_rows_display])
 
-    st.markdown("Aqui está um resumo dos dados:")
+    st.markdown("Aqui está um breve resumo dos dados:")
     st.markdown(
         f"""
         - Quantidade de registros: {df.shape[0]}
