@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "streamlit-stackoverflow"
+version = "0.1.0"
+description = ""
+authors = ["Fillipe Goulart <fillipe.mendes@loggi.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+streamlit = "^1.2.0"
+pandas = "^1.3.4"
+numpy = "^1.21.4"
+matplotlib = "^3.5.0"
+dynaconf = "^3.1.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+ipdb = "^0.13.9"
+ipython = "^7.30.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint.messages_control]
+disable="""
+invalid-name
+"""
+
+[tool.pylint.format]
+max-line-length=79
+
+[tool.black]
+line-length = 79

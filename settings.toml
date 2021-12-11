@@ -1,0 +1,23 @@
+data_file = "./data/survey_results_public.csv"
+data_max_rows_display = 100  # max numbers of rows to display from the raw data
+
+# Specific column names and their defaults
+default_str_nan = "Unavailable"
+ED_LEVEL = "EdLevel"
+AGE = "Age"
+YEARS_CODE = "YearsCode"
+YEARS_CODE_PRO = "YearsCodePro"
+EMPLOYMENT = "Employment"
+COUNTRY = "Country"
+US_STATE = "US_State"
+USED_LANGUAGES = "LanguageHaveWorkedWith"
+DESIRED_LANGUAGES = "LanguageWantToWorkWith"
+YEARLY_SALARY = "ConvertedCompYearly"
+MENTAL_HEALTH = "MentalHealth"
+ORG_SIZE = "OrgSize"
+OP_SYS = "OpSys"
+USE_PYTHON = "UsePython"  # column created for people who use Python
+
+# Specific values for specific columns
+EMPLOYED_FULL_TIME = "Employed full-time"
+BRAZIL = "Brazil"
